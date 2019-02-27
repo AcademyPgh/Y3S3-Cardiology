@@ -2,6 +2,9 @@
 #
 .DS_Store
 
+.vscode/
+android/.vscode/
+
 # Xcode
 #
 build/
@@ -26,13 +29,13 @@ project.xcworkspace
 #
 build/
 .idea
-
+.gradle
 local.properties
 *.iml
 
 # node.js
 #
-
+node_modules/
 npm-debug.log
 yarn-error.log
 
