@@ -29,7 +29,6 @@ export default class App extends Component {
       shouldBeAwake: true,
       cameraPause: true,
     }
-    this.getJWTToken = this.getJWTToken.bind(this);
     this.takePicture = this.takePicture.bind(this);
     this.speakResults = this.speakResults.bind(this);
     this.pauseCamera = this.pauseCamera.bind(this);
@@ -54,13 +53,32 @@ export default class App extends Component {
     }
   }
 
+  dataURItoBlob(dataURI) {
+    // convert base64 to raw binary data held in a string
+    var byteString = atob(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to an ArrayBuffer
+    var arrayBuffer = new ArrayBuffer(byteString.length);
+    var _ia = new Uint8Array(arrayBuffer);
+    for (var i = 0; i < byteString.length; i++) {
+        _ia[i] = byteString.charCodeAt(i);
+    }
+
+    var dataView = new DataView(arrayBuffer);
+    var blob = new Blob([dataView], { type: mimeString });
+    return blob;
+  }
+
   takePicture(camera) {    
     //camera.pausePreview(); // there is curretly a bug with pausePreview which causes takePictureAsync to fail if you call it on Android pre taking a picture
     this.setState({ loading: true });
 
     //Set the options for the camera
     const options = {
-      base64: true
+      base64: false
     };
     
     Tts.speak("klurk")
@@ -69,7 +87,7 @@ export default class App extends Component {
       .then(data => {
         // data is your base64 string
         console.log("taking picture")        
-        this.identifyImage(data.base64, camera);
+        this.identifyImage(data.uri, camera);
       })
       .catch((error) => {
         // e is the error code
@@ -90,56 +108,28 @@ export default class App extends Component {
 
   componentDidMount() {
     //onload
-    this.getJWTToken()
-    this.setState({ initialTokenTime: Date.now() })
     this.changeKeepAwake(true)
   }
 
-  getJWTToken() {    
-    axios
-      .get("https://assertion.herokuapp.com/")
-      .then((response) => {
-        const assertion = response.data
-        console.log(response)
-        axios({
-          method: 'post',
-          url: "https://www.googleapis.com/oauth2/v4/token",
-          data: {
-            "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
-            "assertion": assertion
-          }
-        })
-          .then((response) => {
-            this.setState({ bearerToken: response.data });
-          })
-      })
-      .catch((error) => {
-        console.log(error)
-      })
 
-  }
-
-  identifyImage(imageData, camera) {
+  identifyImage(uri, camera) {
     console.log("identifying image!")
-    const payload = {
-      "payload": {
-        "image": {
-          "imageBytes": imageData
-        },
-      }
-    };
+    var data = new FormData();
+    data.append('image', {uri: uri, name: 'test.jpg', type: 'image/jpg'});
+
     console.log("sending")
     axios({      
       method: 'post',
-      url: "https://automl.googleapis.com/v1beta1/projects/totemic-ground-219514/locations/us-central1/models/ICN6280896592581654906:predict",
+      url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/1d9deceb-30ee-49fd-80f7-5e198d8cb309/image?iterationId=bddc0b5f-777d-4b15-86be-2c407179baa3",
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + this.state.bearerToken.access_token
+        "Content-Type": "multipart/form-data",
+        "Prediction-Key": "054801a27f9a49519e0db20c8bcc5a5c"
       },
-      data: payload
+      data: data
     })
       .then((response) => {
         this.setState({ mlresults: response.data })
+        console.log(response.data);
         console.log("setting mlresutls")
       })
       .catch((error) => {
@@ -159,39 +149,39 @@ export default class App extends Component {
   speakResults() {
     console.log("speak those results");
     let ADN = [];
-    ADN = this.state.mlresults.payload.filter((element) =>
-      element.classification.score > 0.9);
+    ADN = this.state.mlresults.predictions.filter((element) =>
+      element.probability > 0.9);
     console.log(ADN);
     let results = {}; 
     ADN.forEach((element) => {
-      if (element.displayName == "J"){
+      if (element.tagName == "J"){
           results.face = "Jack"
         }
-        else if ( element.displayName == "A"){
+        else if ( element.tagName == "A"){
           results.face = "Ace"
         }
-        else if (element.displayName == "K"){
+        else if (element.tagName == "K"){
           results.face = "King"
         }
-        else if (element.displayName == "Q"){
+        else if (element.tagName == "Q"){
           results.face = "Queen"
         }
-        else if (element.displayName.toLowerCase() == "heart") {
+        else if (element.tagName.toLowerCase() == "heart") {
           results.suit = "Hearts"
         }
-        else if (element.displayName.toLowerCase() == "diamond") {
+        else if (element.tagName.toLowerCase() == "diamond") {
           results.suit = "Diamonds"
         }
-        else if (element.displayName.toLowerCase() == "spade") {
+        else if (element.tagName.toLowerCase() == "spade") {
           results.suit = "Spades"
         }
-        else if (element.displayName.toLowerCase() == "club") {
+        else if (element.tagName.toLowerCase() == "club") {
           results.suit = "Clubs"
         }
         else {
-          if (element.displayName != "Face" && element.displayName != "Black" && element.displayName != "Red" )
+          if (element.tagName != "Face" && element.tagName != "Black" && element.tagName != "Red" )
           {  
-            results.face = element.displayName
+            results.face = element.tagName
           }
         }
     });
