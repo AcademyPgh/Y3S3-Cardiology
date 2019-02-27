@@ -14,6 +14,7 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      startLoopTime: null,
       pauseOrUnpause: 'unpause',
       keepLooping: true,
       loading: false,
@@ -33,13 +34,14 @@ export default class App extends Component {
     this.speakResults = this.speakResults.bind(this);
     this.pauseCamera = this.pauseCamera.bind(this);
     this.pauseSwitch = this.pauseSwitch.bind(this);
+    this.checkTimeToBreakLoop = this.checkTimeToBreakLoop.bind(this);
   }  
 
   pauseSwitch(camera) {
     if(this.state.pauseOrUnpause === 'unpause')
     {
       this.takePicture(camera)
-      this.setState({pauseOrUnpause:'pause', keepLooping: true})
+      this.setState({pauseOrUnpause:'pause', keepLooping: true, startLoopTime: Date.now()})
     } else {
       this.setState({pauseOrUnpause: 'unpause', keepLooping: false})
     }
@@ -51,25 +53,6 @@ export default class App extends Component {
     } else {
       KeepAwake.deactivate();
     }
-  }
-
-  dataURItoBlob(dataURI) {
-    // convert base64 to raw binary data held in a string
-    var byteString = atob(dataURI.split(',')[1]);
-
-    // separate out the mime component
-    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-    // write the bytes of the string to an ArrayBuffer
-    var arrayBuffer = new ArrayBuffer(byteString.length);
-    var _ia = new Uint8Array(arrayBuffer);
-    for (var i = 0; i < byteString.length; i++) {
-        _ia[i] = byteString.charCodeAt(i);
-    }
-
-    var dataView = new DataView(arrayBuffer);
-    var blob = new Blob([dataView], { type: mimeString });
-    return blob;
   }
 
   takePicture(camera) {    
@@ -113,6 +96,7 @@ export default class App extends Component {
 
 
   identifyImage(uri, camera) {
+    this.setState({ loading: true });
     console.log("identifying image!")
     var data = new FormData();
     data.append('image', {uri: uri, name: 'test.jpg', type: 'image/jpg'});
@@ -136,21 +120,31 @@ export default class App extends Component {
         console.log(error.response)
       })
       .then(() => {
-        this.speakResults()
-        if(this.state.keepLooping === true) {
-          //setTimeout(this.takePicture(this.camera), 2000);
-        }        
+        this.speakResults(camera)
+    
       })
       .catch((error) => {
         console.log(error)
       })      
   }
 
-  speakResults() {
+  checkTimeToBreakLoop(){    
+    if(Date.now() > this.state.startLoopTime + 3000){
+      console.log('break loop');
+      this.setState({keepLooping: false, pauseOrUnpause: 'unpause'})
+    }
+  }
+
+  speakResults(camera) {
     console.log("speak those results");
     let ADN = [];
     ADN = this.state.mlresults.predictions.filter((element) =>
       element.probability > 0.9);
+    if(ADN.length > 0){
+      console.log('time updated');
+      this.setState({startLoopTime: Date.now()});
+    }
+    this.checkTimeToBreakLoop();
     console.log(ADN);
     let results = {}; 
     ADN.forEach((element) => {
@@ -193,9 +187,13 @@ export default class App extends Component {
     {
       results.suit = "Unknown"
     }
-    if(results.face !== "Unknown" && results.suit !== "Unknown")
+    //if(results.face !== "Unknown" && results.suit !== "Unknown")
     {
       Tts.speak(`${results.face} of ${results.suit}`)
+      if(this.state.keepLooping === true) {
+          console.log('loopagain');
+          setTimeout(() => {this.takePicture(camera)}, 1000);
+      }
     }
   }
 
@@ -208,7 +206,7 @@ export default class App extends Component {
           <RNCamera 
             type={this.state.cameraType} mirrorImage={this.state.mirrorMode} 
             ref={ref => { this.camera = ref; }} style={styles.preview}>
-            <CameraButton onClick={() => {this.takePicture(this.camera)}} />
+            <CameraButton onClick={() => {this.pauseSwitch(this.camera)}} />
           </RNCamera>
       </View>
     );
