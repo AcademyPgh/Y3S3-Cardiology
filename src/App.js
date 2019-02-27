@@ -138,7 +138,7 @@ export default class App extends Component {
       .then(() => {
         this.speakResults()
         if(this.state.keepLooping === true) {
-          this.takePicture(this.camera)
+          //setTimeout(this.takePicture(this.camera), 2000);
         }        
       })
       .catch((error) => {
@@ -154,32 +154,32 @@ export default class App extends Component {
     console.log(ADN);
     let results = {}; 
     ADN.forEach((element) => {
-      if (element.tagName == "J"){
+      if (element.tagName == "jack"){
           results.face = "Jack"
         }
-        else if ( element.tagName == "A"){
+        else if ( element.tagName == "ace"){
           results.face = "Ace"
         }
-        else if (element.tagName == "K"){
+        else if (element.tagName == "king"){
           results.face = "King"
         }
-        else if (element.tagName == "Q"){
+        else if (element.tagName == "queen"){
           results.face = "Queen"
         }
-        else if (element.tagName.toLowerCase() == "heart") {
+        else if (element.tagName.toLowerCase() == "hearts") {
           results.suit = "Hearts"
         }
-        else if (element.tagName.toLowerCase() == "diamond") {
+        else if (element.tagName.toLowerCase() == "diamonds") {
           results.suit = "Diamonds"
         }
-        else if (element.tagName.toLowerCase() == "spade") {
+        else if (element.tagName.toLowerCase() == "spades") {
           results.suit = "Spades"
         }
-        else if (element.tagName.toLowerCase() == "club") {
+        else if (element.tagName.toLowerCase() == "clubs") {
           results.suit = "Clubs"
         }
         else {
-          if (element.tagName != "Face" && element.tagName != "Black" && element.tagName != "Red" )
+          if (element.tagName != "black" && element.tagName != "red" )
           {  
             results.face = element.tagName
           }
@@ -208,7 +208,7 @@ export default class App extends Component {
           <RNCamera 
             type={this.state.cameraType} mirrorImage={this.state.mirrorMode} 
             ref={ref => { this.camera = ref; }} style={styles.preview}>
-            <CameraButton onClick={() => {this.pauseSwitch(this.camera)}} />
+            <CameraButton onClick={() => {this.takePicture(this.camera)}} />
           </RNCamera>
       </View>
     );

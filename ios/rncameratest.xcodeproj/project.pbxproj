@@ -30,8 +30,6 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		DD879CD726D44ECF9EB868A5 /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3290165BC17C4AFE8CD59A2B /* libKCKeepAwake.a */; };
 		EE895A2205A6427EBC001A02 /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C021CB8DCE07452A8F49ECB7 /* libRNCamera.a */; };
-		2094603C0B624D359311633F /* libTextToSpeech.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89F14479254721BE27232F /* libTextToSpeech.a */; };
-		EEB8D502BA2F441587D6CBFA /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8172A9CD399F43269A9E9852 /* libKCKeepAwake.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -708,10 +706,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 852Q762CE6;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 2MW9CMXJYJ;
+						DevelopmentTeam = 852Q762CE6;
 					};
 					2D02E48F1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1181,6 +1180,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 852Q762CE6;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1215,6 +1215,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 852Q762CE6;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)..\node_modules\neact-native-cameraios/**",
@@ -1247,7 +1248,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 2MW9CMXJYJ;
+				DEVELOPMENT_TEAM = 852Q762CE6;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)..\node_modules\neact-native-cameraios/**",
@@ -1273,7 +1274,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2MW9CMXJYJ;
+				DEVELOPMENT_TEAM = 852Q762CE6;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)..\node_modules\neact-native-cameraios/**",
