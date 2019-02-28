@@ -100,7 +100,7 @@ android {
     //buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.rncameratest"
+        applicationId "com.cardwhisper"
         minSdkVersion rootProject.ext.minSdkVersion 
         targetSdkVersion 28 //rootProject.ext.targetSdkVersion 
         versionCode 1

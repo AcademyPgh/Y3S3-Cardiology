@@ -1,4 +1,4 @@
-package com.rncameratest;
+package com.cardwhisper;
 
 import com.facebook.react.ReactActivity;
 
@@ -11,6 +11,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "rncameratest";
+        return "CardWhisper";
     }
 }

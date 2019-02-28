@@ -1,4 +1,4 @@
-package com.rncameratest;
+package com.cardwhisper;
 
 import android.app.Application;
 
