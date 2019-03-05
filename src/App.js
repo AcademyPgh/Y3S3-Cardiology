@@ -104,7 +104,7 @@ export default class App extends Component {
     console.log("sending")
     axios({      
       method: 'post',
-      url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/1d9deceb-30ee-49fd-80f7-5e198d8cb309/image?iterationId=bddc0b5f-777d-4b15-86be-2c407179baa3",
+      url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/fc17a4ae-3af5-4257-a413-bedd4d97a937/image?iterationId=7442cf93-5551-4c61-b21b-916bb9dc954a",
       headers: {
         "Content-Type": "multipart/form-data",
         "Prediction-Key": "054801a27f9a49519e0db20c8bcc5a5c"

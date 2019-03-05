@@ -1,4 +1,5 @@
 # Y3S3-Cardiology
+[![Build status](https://build.appcenter.ms/v0.1/apps/0061e8ba-5d32-46fb-951c-cd8f3fde83ab/branches/master/badge)](https://appcenter.ms)
 
 Card Whisper App
 
