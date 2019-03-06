@@ -9,6 +9,9 @@ import  { YellowBox } from 'react-native';
 import PauseButton from './PauseButton';
 
 YellowBox.ignoreWarnings(['Sending...']);
+const TTSSTART = 'started';
+const TTSFINISH = 'finished';
+const TTSCANCEL = 'cancelled';
 
 export default class App extends Component {
   constructor(props) {
@@ -30,6 +33,17 @@ export default class App extends Component {
       shouldBeAwake: true,
       cameraPause: true,
     }
+
+    Tts.addEventListener("tts-start", event =>
+      this.setState({ ttsStatus: TTSSTART })
+    );
+    Tts.addEventListener("tts-finish", event =>
+      this.setState({ ttsStatus: TTSFINISH })
+    );
+    Tts.addEventListener("tts-cancel", event =>
+      this.setState({ ttsStatus: TTSCANCEL })
+    );
+
     this.takePicture = this.takePicture.bind(this);
     this.speakResults = this.speakResults.bind(this);
     this.pauseCamera = this.pauseCamera.bind(this);
@@ -64,7 +78,7 @@ export default class App extends Component {
       base64: false
     };
     
-    Tts.speak("klurk")
+    //Tts.speak("klurk")
     // Get the base64 version of the image
     camera.takePictureAsync(options)
       .then(data => {
@@ -197,16 +211,27 @@ export default class App extends Component {
   //  }
   //}
 
-  speakResults() {
+  speakResults(camera) {
       console.log("speak those results");
-      Tts.speak(Math.round(this.state.mlresults.predictions[0].probability * 100));
+      Tts.speak(Math.round(this.state.mlresults.predictions[0].probability * 100) + " percent");
       Tts.speak(this.state.mlresults.predictions[0].tagName);
+      setTimeout(() => {this.isFinished(camera)}, 1000);
       console.log(this.state.mlresults.predictions);
-      if (this.state.keepLooping === true) {
-          console.log('loopagain');
-          setTimeout(() => { this.takePicture(camera) }, 1000);
-      }
+
      
+  }
+
+  isFinished(camera) {
+    const ttsStatus = this.state.ttsStatus;
+    if ((ttsStatus === TTSFINISH || ttsStatus === TTSCANCEL) && this.state.keepLooping === true)
+    {
+      console.log('loopagain');
+      setTimeout(() => {this.takePicture(camera)}, 1000);
+    }
+    else if (ttsStatus === TTSSTART)
+    {
+      setTimeout(() => {this.isFinished(camera)}, 1000);
+    }
   }
 
 
