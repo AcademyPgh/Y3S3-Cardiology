@@ -135,67 +135,80 @@ export default class App extends Component {
     }
   }
 
-  speakResults(camera) {
-    console.log("speak those results");
-    let ADN = [];
-    ADN = this.state.mlresults.predictions.filter((element) =>
-      element.probability > 0.9);
-    if(ADN.length > 0){
-      console.log('time updated');
-      this.setState({startLoopTime: Date.now()});
-    }
-    this.checkTimeToBreakLoop();
-    console.log(ADN);
-    let results = {}; 
-    ADN.forEach((element) => {
-      if (element.tagName == "jack"){
-          results.face = "Jack"
-        }
-        else if ( element.tagName == "ace"){
-          results.face = "Ace"
-        }
-        else if (element.tagName == "king"){
-          results.face = "King"
-        }
-        else if (element.tagName == "queen"){
-          results.face = "Queen"
-        }
-        else if (element.tagName.toLowerCase() == "hearts") {
-          results.suit = "Hearts"
-        }
-        else if (element.tagName.toLowerCase() == "diamonds") {
-          results.suit = "Diamonds"
-        }
-        else if (element.tagName.toLowerCase() == "spades") {
-          results.suit = "Spades"
-        }
-        else if (element.tagName.toLowerCase() == "clubs") {
-          results.suit = "Clubs"
-        }
-        else {
-          if (element.tagName != "black" && element.tagName != "red" )
-          {  
-            results.face = element.tagName
-          }
-        }
-    });
-    if(results.face === undefined)
-    {
-      results.face = "Unknown"
-    }
-    if(results.suit === undefined)
-    {
-      results.suit = "Unknown"
-    }
-    //if(results.face !== "Unknown" && results.suit !== "Unknown")
-    {
-      Tts.speak(`${results.face} of ${results.suit}`)
-      if(this.state.keepLooping === true) {
+  //speakResults(camera) {
+  //  console.log("speak those results");
+  //  let ADN = [];
+  //  ADN = this.state.mlresults.predictions.filter((element) =>
+  //    element.probability > 0.9);
+  //  if(ADN.length > 0){
+  //    console.log('time updated');
+  //    this.setState({startLoopTime: Date.now()});
+  //  }
+  //  this.checkTimeToBreakLoop();
+  //  console.log(ADN);
+  //  let results = {}; 
+  //  ADN.forEach((element) => {
+  //    if (element.tagName == "jack"){
+  //        results.face = "Jack"
+  //      }
+  //      else if ( element.tagName == "ace"){
+  //        results.face = "Ace"
+  //      }
+  //      else if (element.tagName == "king"){
+  //        results.face = "King"
+  //      }
+  //      else if (element.tagName == "queen"){
+  //        results.face = "Queen"
+  //      }
+  //      else if (element.tagName.toLowerCase() == "hearts") {
+  //        results.suit = "Hearts"
+  //      }
+  //      else if (element.tagName.toLowerCase() == "diamonds") {
+  //        results.suit = "Diamonds"
+  //      }
+  //      else if (element.tagName.toLowerCase() == "spades") {
+  //        results.suit = "Spades"
+  //      }
+  //      else if (element.tagName.toLowerCase() == "clubs") {
+  //        results.suit = "Clubs"
+  //      }
+  //      else {
+  //        if (element.tagName != "black" && element.tagName != "red" )
+  //        {  
+  //          results.face = element.tagName
+  //        }
+  //      }
+  //  });
+  //  if(results.face === undefined)
+  //  {
+  //    results.face = "Unknown"
+  //  }
+  //  if(results.suit === undefined)
+  //  {
+  //    results.suit = "Unknown"
+  //  }
+  //  //if(results.face !== "Unknown" && results.suit !== "Unknown")
+  //  {
+  //    Tts.speak(`${results.face} of ${results.suit}`)
+  //    if(this.state.keepLooping === true) {
+  //        console.log('loopagain');
+  //        setTimeout(() => {this.takePicture(camera)}, 1000);
+  //    }
+  //  }
+  //}
+
+  speakResults() {
+      console.log("speak those results");
+      Tts.speak(Math.round(this.state.mlresults.predictions[0].probability * 100));
+      Tts.speak(this.state.mlresults.predictions[0].tagName);
+      console.log(this.state.mlresults.predictions);
+      if (this.state.keepLooping === true) {
           console.log('loopagain');
-          setTimeout(() => {this.takePicture(camera)}, 1000);
+          setTimeout(() => { this.takePicture(camera) }, 1000);
       }
-    }
+     
   }
+
 
 //<View >{Alert.alert('How to use Card Whisperer','Hold a playing card over the phone and tap the top half of the screen to start the camera. Wait until your card is read and then hold your next card over the phone. The camera will contnuously take photos unless you tap the bottom half of the screen to pause. Tap the top half of the screen to start the camera again')}</View>
 
