@@ -118,9 +118,16 @@ export default class App extends Component {
     console.log("sending")
     axios({      
       method: 'post',
-      url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/fc17a4ae-3af5-4257-a413-bedd4d97a937/image?iterationId=7442cf93-5551-4c61-b21b-916bb9dc954a",
+      // // This is the set of playing cards
+      // url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/fc17a4ae-3af5-4257-a413-bedd4d97a937/image?iterationId=7442cf93-5551-4c61-b21b-916bb9dc954a",
+      // headers: {
+      //   "Content-Type": "multipart/form-data",
+      //   "Prediction-Key": "054801a27f9a49519e0db20c8bcc5a5c"
+     
+      // // This is the GAMA Demo Set
+      url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/7504ac2b-bd9d-4c94-b2eb-4f98b54b65d6/image?iterationId=2cd82f8c-6b50-40a6-9001-5f12d71c1313",
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/octet-stream",
         "Prediction-Key": "054801a27f9a49519e0db20c8bcc5a5c"
       },
       data: data
