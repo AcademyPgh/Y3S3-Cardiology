@@ -6,7 +6,7 @@ import axios from 'axios';
 import Tts from 'react-native-tts';
 import KeepAwake from 'react-native-keep-awake';
 import  { YellowBox } from 'react-native';
-import PauseButton from './PauseButton';
+import { Games } from './Urls';
 
 YellowBox.ignoreWarnings(['Sending...']);
 const TTSSTART = 'started';
@@ -32,6 +32,8 @@ export default class App extends Component {
       mirrorMode : false,
       shouldBeAwake: true,
       cameraPause: true,
+      currentGameId: 0,
+      currentGame: Games[0]
     }
 
     Tts.addEventListener("tts-start", event =>
@@ -49,6 +51,8 @@ export default class App extends Component {
     this.pauseCamera = this.pauseCamera.bind(this);
     this.pauseSwitch = this.pauseSwitch.bind(this);
     this.checkTimeToBreakLoop = this.checkTimeToBreakLoop.bind(this);
+    this.getGame = this.getGame.bind(this);
+    this.setGame = this.setGame.bind(this);
   }  
 
   pauseSwitch(camera) {
@@ -114,33 +118,14 @@ export default class App extends Component {
     console.log("identifying image!")
     var data = new FormData();
     data.append('image', {uri: uri, name: 'test.jpg', type: 'image/jpg'});
-
+    const currentGame = this.state.currentGame;
     console.log("sending")
     axios({      
       method: 'post',
-      // // This is the set of playing cards
-      // url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/fc17a4ae-3af5-4257-a413-bedd4d97a937/image?iterationId=7442cf93-5551-4c61-b21b-916bb9dc954a",
-      // headers: {
-      //   "Content-Type": "multipart/form-data",
-      //   "Prediction-Key": "054801a27f9a49519e0db20c8bcc5a5c"
-     
-      // // This is the Jaipur Demo Set
-      // url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/b6704bd5-950f-41bb-954e-6de363188d01/image?iterationId=0e28d02f-13c2-470d-a338-b6c5596fd4e8",
-      // headers: {
-      //   "Content-Type": "application/octet-stream",
-      //   "Prediction-Key": "f2d1056262d649d4aa2cfc9c6b86ad7d"
-
-      //   // // This is the set of coup cards
-      //  url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/681ab4cd-45d8-4157-a2d5-b8dc8c65a532/image?iterationId=88813f94-5310-4afd-9768-a0619838a3da",
-      //  headers: {
-      //    "Content-Type": "multipart/form-data",
-      //     "Prediction-Key": "054801a27f9a49519e0db20c8bcc5a5c"
-
-            // // This is the set of keyforge cards
-       url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/078cd1d7-aad5-4d8d-9d53-48e32a7eaaac/image?iterationId=5f6cf3c6-bed7-44cb-9ce1-45d4680cf2ec",
-       headers: {
-         "Content-Type": "multipart/form-data",
-          "Prediction-Key": "054801a27f9a49519e0db20c8bcc5a5c"
+      url: currentGame.url,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Prediction-Key": currentGame.key
 
       },
       data: data
@@ -169,76 +154,12 @@ export default class App extends Component {
     }
   }
 
-  //speakResults(camera) {
-  //  console.log("speak those results");
-  //  let ADN = [];
-  //  ADN = this.state.mlresults.predictions.filter((element) =>
-  //    element.probability > 0.9);
-  //  if(ADN.length > 0){
-  //    console.log('time updated');
-  //    this.setState({startLoopTime: Date.now()});
-  //  }
-  //  this.checkTimeToBreakLoop();
-  //  console.log(ADN);
-  //  let results = {}; 
-  //  ADN.forEach((element) => {
-  //    if (element.tagName == "jack"){
-  //        results.face = "Jack"
-  //      }
-  //      else if ( element.tagName == "ace"){
-  //        results.face = "Ace"
-  //      }
-  //      else if (element.tagName == "king"){
-  //        results.face = "King"
-  //      }
-  //      else if (element.tagName == "queen"){
-  //        results.face = "Queen"
-  //      }
-  //      else if (element.tagName.toLowerCase() == "hearts") {
-  //        results.suit = "Hearts"
-  //      }
-  //      else if (element.tagName.toLowerCase() == "diamonds") {
-  //        results.suit = "Diamonds"
-  //      }
-  //      else if (element.tagName.toLowerCase() == "spades") {
-  //        results.suit = "Spades"
-  //      }
-  //      else if (element.tagName.toLowerCase() == "clubs") {
-  //        results.suit = "Clubs"
-  //      }
-  //      else {
-  //        if (element.tagName != "black" && element.tagName != "red" )
-  //        {  
-  //          results.face = element.tagName
-  //        }
-  //      }
-  //  });
-  //  if(results.face === undefined)
-  //  {
-  //    results.face = "Unknown"
-  //  }
-  //  if(results.suit === undefined)
-  //  {
-  //    results.suit = "Unknown"
-  //  }
-  //  //if(results.face !== "Unknown" && results.suit !== "Unknown")
-  //  {
-  //    Tts.speak(`${results.face} of ${results.suit}`)
-  //    if(this.state.keepLooping === true) {
-  //        console.log('loopagain');
-  //        setTimeout(() => {this.takePicture(camera)}, 1000);
-  //    }
-  //  }
-  //}
-
   speakResults(camera) {
       console.log("speak those results");
       Tts.speak(Math.round(this.state.mlresults.predictions[0].probability * 100) + " percent");
       Tts.speak(this.state.mlresults.predictions[0].tagName);
       setTimeout(() => {this.isFinished(camera)}, 1000);
       console.log(this.state.mlresults.predictions);
-
-     
   }
 
   isFinished(camera) {
@@ -254,6 +175,30 @@ export default class App extends Component {
     }
   }
 
+  setGame(index)
+  {
+    this.setState({
+      currentGameId: index,
+      currentGame: Games[index]
+    });
+  }
+
+  getGame(game, index) {
+    let style = styles.game;
+    if(index === this.state.currentGameId)
+    {
+      style = styles.gameSelected;
+    }
+    return (
+      <View key={index}>
+        <TouchableOpacity onPress={() => this.setGame(index)}>
+          <Text style={style}>{game.name}</Text>
+        </TouchableOpacity>
+      </View>
+    
+    );
+  }
+
 
 //<View >{Alert.alert('How to use Card Whisperer','Hold a playing card over the phone and tap the top half of the screen to start the camera. Wait until your card is read and then hold your next card over the phone. The camera will contnuously take photos unless you tap the bottom half of the screen to pause. Tap the top half of the screen to start the camera again')}</View>
 
@@ -261,6 +206,11 @@ export default class App extends Component {
     
     return (
       <View style={styles.container}>
+                {Games.map((game, index) => {
+            return (
+              this.getGame(game, index)
+            )
+          })}
           <RNCamera 
             type={this.state.cameraType} mirrorImage={this.state.mirrorMode} 
             ref={ref => { this.camera = ref; }} style={styles.preview}>
@@ -288,6 +238,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  game: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+  gameSelected: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+    fontWeight: 'bold',
+    backgroundColor: 'yellow'
   },
   preview: {
     flex: 1,
