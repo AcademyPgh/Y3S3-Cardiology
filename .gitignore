@@ -4,6 +4,7 @@
 
 .vscode/
 android/.vscode/
+.vs/
 
 # Xcode
 #
