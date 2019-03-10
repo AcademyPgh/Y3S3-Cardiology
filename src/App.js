@@ -130,8 +130,14 @@ export default class App extends Component {
       //   "Content-Type": "application/octet-stream",
       //   "Prediction-Key": "f2d1056262d649d4aa2cfc9c6b86ad7d"
 
-        // // This is the set of playing cards
-       url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/681ab4cd-45d8-4157-a2d5-b8dc8c65a532/image?iterationId=88813f94-5310-4afd-9768-a0619838a3da",
+      //   // // This is the set of coup cards
+      //  url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/681ab4cd-45d8-4157-a2d5-b8dc8c65a532/image?iterationId=88813f94-5310-4afd-9768-a0619838a3da",
+      //  headers: {
+      //    "Content-Type": "multipart/form-data",
+      //     "Prediction-Key": "054801a27f9a49519e0db20c8bcc5a5c"
+
+            // // This is the set of keyforge cards
+       url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/078cd1d7-aad5-4d8d-9d53-48e32a7eaaac/image?iterationId=5f6cf3c6-bed7-44cb-9ce1-45d4680cf2ec",
        headers: {
          "Content-Type": "multipart/form-data",
           "Prediction-Key": "054801a27f9a49519e0db20c8bcc5a5c"
