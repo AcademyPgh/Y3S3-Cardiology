@@ -124,11 +124,11 @@ export default class App extends Component {
       //   "Content-Type": "multipart/form-data",
       //   "Prediction-Key": "054801a27f9a49519e0db20c8bcc5a5c"
      
-      // // This is the GAMA Demo Set
-      url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/7504ac2b-bd9d-4c94-b2eb-4f98b54b65d6/image?iterationId=2cd82f8c-6b50-40a6-9001-5f12d71c1313",
+      // // This is the Jaipur Demo Set
+      url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/b6704bd5-950f-41bb-954e-6de363188d01/image?iterationId=0e28d02f-13c2-470d-a338-b6c5596fd4e8",
       headers: {
         "Content-Type": "application/octet-stream",
-        "Prediction-Key": "054801a27f9a49519e0db20c8bcc5a5c"
+        "Prediction-Key": "f2d1056262d649d4aa2cfc9c6b86ad7d"
       },
       data: data
     })
