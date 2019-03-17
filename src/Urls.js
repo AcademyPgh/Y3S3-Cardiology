@@ -16,7 +16,7 @@ export const Games = [
     },
     {
         name: "Fives and Sixes",
-        url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/6bc485e1-4677-4bb5-8912-bd2fd2570589/image?iterationId=075353f9-1641-47ea-8661-0af9c4147b94",
+        url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/6bc485e1-4677-4bb5-8912-bd2fd2570589/image?iterationId=c5c3ba80-8779-4371-affc-b50b27537456",
         key: "054801a27f9a49519e0db20c8bcc5a5c",
     },
     {
