@@ -1,0 +1,7 @@
+Jixia Academy 
+if you have an image file:
+https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/51c83bf7-6de8-46ab-80cb-1d6b18818077/image?iterationId=b75b90e3-cb65-4500-bb2f-493e60b8344c
+Set Prediction-Key Header to : 054801a27f9a49519e0db20c8bcc5a5c
+Set Content-Type Header to : application/octet-stream
+Set Body to : <image file>
+Remember, you can mark an
