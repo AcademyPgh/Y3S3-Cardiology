@@ -24,6 +24,11 @@ export const Games = [
         url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/51c83bf7-6de8-46ab-80cb-1d6b18818077/image?iterationId=b75b90e3-cb65-4500-bb2f-493e60b8344c",
         key: "054801a27f9a49519e0db20c8bcc5a5c",
     },
+      {
+        name: "clubs test",
+        url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/cf5a15b5-1131-463d-9d60-65778e75e1f0/image?iterationId=af3ce40a-13ca-41f5-bf74-487ba1be23df",
+        key: "054801a27f9a49519e0db20c8bcc5a5c",
+    },
     {
         name: "Keyforge",
         url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/078cd1d7-aad5-4d8d-9d53-48e32a7eaaac/image?iterationId=5f6cf3c6-bed7-44cb-9ce1-45d4680cf2ec",
