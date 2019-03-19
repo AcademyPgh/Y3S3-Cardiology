@@ -26,7 +26,7 @@ export const Games = [
     },
       {
         name: "clubs test",
-        url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/cf5a15b5-1131-463d-9d60-65778e75e1f0/image?iterationId=af3ce40a-13ca-41f5-bf74-487ba1be23df",
+        url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/cf5a15b5-1131-463d-9d60-65778e75e1f0/image?iterationId=fdf8f56d-131c-47f0-afc0-e99d416de650",
         key: "054801a27f9a49519e0db20c8bcc5a5c",
     },
     {
