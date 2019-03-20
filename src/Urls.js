@@ -29,6 +29,11 @@ export const Games = [
         url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/cf5a15b5-1131-463d-9d60-65778e75e1f0/image?iterationId=fdf8f56d-131c-47f0-afc0-e99d416de650",
         key: "054801a27f9a49519e0db20c8bcc5a5c",
     },
+     {
+        name: "phase 10 y6,y9,skip,wild",
+        url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/5756da1f-2a90-4704-9ee3-5f9ebac61dec/image?iterationId=9c4866a1-e7e3-47b7-98a2-62281c46613f",
+        key: "054801a27f9a49519e0db20c8bcc5a5c",
+    },
     {
         name: "Keyforge",
         url: "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/078cd1d7-aad5-4d8d-9d53-48e32a7eaaac/image?iterationId=5f6cf3c6-bed7-44cb-9ce1-45d4680cf2ec",
